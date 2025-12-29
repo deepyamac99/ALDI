@@ -9,15 +9,14 @@ In all three examples ALDI-distribution evolves in the phase-space to capture th
 
 ## Gradient-Based ALDI
 
-The gradient-based implementation evolves an ensemble \(\{u^{(j)}_t\}_{j=1}^J\) according to a discretized SDE with drift and diffusion terms constructed from an energy (potential) function \(\Phi\). [web:23]
-
+The gradient-based implementation evolves an ensemble according to a discretized SDE with drift and diffusion terms constructed from potential function.
 ### Core Idea
 
 - The SDE uses:
   - **Empirical mean** \(m(U)\) and **covariance** \(C(U)\) of the ensemble.
-  - A **potential** \(\Phi(u)\) combining a smoothed limit state function \(\tilde{G}\) and a Gaussian prior.
-  - A **gradient term** \(-C(U)\nabla \Phi(u^{(j)})\) driving the ensemble toward regions of interest (e.g., failure domain). [web:23]
-- Noise is added using a covariance-based construction, ensuring exploration and approximate affine invariance. [web:21]
+  - A **potential** \(\Phi(u)\) combining a piecewise smoothed limit state function \(\tilde{G}\) and a Gaussian prior.
+  - A **gradient term** \(-C(U)\nabla \Phi(u^{(j)})\) driving the ensemble toward regions of interest (e.g., failure domain). 
+- Noise is added using a covariance-based construction, ensuring exploration and approximate affine invariance. 
 
 ### Main Components
 
