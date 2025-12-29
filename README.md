@@ -1,9 +1,10 @@
 # Gradient-Based and Gradient-Free ALDI for Failure Probability Estimation
 
-This repository implements **gradient-based** and **gradient-free** variants of an ALDI (Affine-Invariant / Approximate Langevin Dynamics Inference–type) algorithm to estimate failure probabilities in a dynamical system using ensembles of particles evolved by stochastic dynamics. [web:14]
-
-Both approaches revolve around a **limit state function (LSF)** that defines a failure domain via the long-time behavior of a simple 2D dynamical system, and use ensemble-based updates to concentrate particles near rare failure regions. [web:23]
-
+This repository implements **gradient-based** and **gradient-free** variants of an ALDI (Affine-Invariant Langevin Dynamics Inference–type) algorithm to estimate failure probabilities in a dynamical system using ensembles of particles evolved by stochastic dynamics. The algorithms are experimented on three specific problems,
+  - Algebraic Convex problem
+  - Hyperbolic Saddle problem
+  - 6 dimensional Point vortex interaction problem
+In all three examples ALDI-distribution evolves in the phase-space to capture the rare-event set.
 ---
 
 ## Gradient-Based ALDI
