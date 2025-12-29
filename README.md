@@ -15,7 +15,7 @@ The gradient-based implementation evolves an ensemble according to a discretized
 - The SDE uses:
   - **Empirical mean** \(m(U)\) and **covariance** \(C(U)\) of the ensemble.
   - A **potential** \(\Phi(u)\) combining a piecewise smoothed limit state function \(\tilde{G}\) and a Gaussian prior.
-  - A **gradient term** \(-C(U)\nabla \Phi(u^{(j)})\) driving the ensemble toward regions of interest (e.g., failure domain). 
+  - A **gradient term** $(-C(U)\nabla \Phi(u^{(j)}))$ driving the ensemble toward regions of interest (e.g., failure domain). 
 - Noise is added using a covariance-based construction, ensuring exploration and approximate affine invariance. 
 
 ### Main Components
