@@ -65,7 +65,6 @@ The gradient-based implementation evolves an ensemble according to a discretized
 - `aldi_gradient_step(U, T, y, Gamma, dt, k, alpha, eps)`  
   Performs **one gradient-based ALDI step**:
   - Computes:
-   - Computes:
     - Ensemble mean `m` and anomalies $A = U - m 1_N$.
     - Forward model values `P = is_failure(U, t_grid)`.
     - Output mean `p_mean` and anomalies `B = P - p_mean`.
@@ -147,8 +146,8 @@ In addition to the gradient-based implementation, the repository includes a **gr
   Performs **one gradient-free ALDI step**:
   - Computes:
     - Ensemble mean `m` and anomalies $A = U - m 1_N$.
-    - Forward model values $P = \text{is\_failure}(U, t\_grid)$.
-    - Output mean `p_mean` and anomalies $B = P - p_\text{mean}$.
+    - Forward model values `P = is_failure(U, t_grid)`.
+    - Output mean `p_mean` and anomalies `B = P - p_mean`.
   - Builds empirical covariances:
     - State covariance $C = \frac{1}{N} A A^\top + \varepsilon I$.
     - Cross-covariance $C_{uG} = \frac{1}{N} A B^\top$.
