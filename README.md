@@ -65,9 +65,10 @@ The gradient-based implementation evolves an ensemble according to a discretized
 - `aldi_gradient_step(U, T, y, Gamma, dt, k, alpha, eps)`  
   Performs **one gradient-based ALDI step**:
   - Computes:
+   - Computes:
     - Ensemble mean `m` and anomalies $A = U - m 1_N$.
-    - Forward model values $P = \text{is_failure}(U, \text{t_grid})$.
-    - Output mean `p_mean` and anomalies $B = P - p_\text{mean}$.
+    - Forward model values `P = is_failure(U, t_grid)`.
+    - Output mean `p_mean` and anomalies `B = P - p_mean`.
     - Empirical covariance $C$.
     - Covariance-based square-root term $C_\text{half}$ (using anomalies).
   - Evaluates `grad_PHI` and constructs the **drift**:
