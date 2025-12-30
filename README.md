@@ -28,9 +28,7 @@ The gradient-based implementation evolves an ensemble according to a discretized
   (Here the LSF is explained for the hyperbolic saddle problem for ease of understanding)
   - The state $(x(t), y(t))$ is obtained by exponential decay/growth from the initial condition $u = (u_1, u_2)$ over a time grid `t_grid`.
   - The function computes the time-averaged squared radius $x(t)^2 + y(t)^2$ and returns:
-    $
-    G(u) = \text{mean}_t(x(t)^2 + y(t)^2) - 0.5
-    $
+    $$G(u) = \text{mean}_t(x(t)^2 + y(t)^2) - 0.5$$
   - Failure corresponds to $G(u) \leq 0$.
 
 - `G_tilde(u, T, k)`  
