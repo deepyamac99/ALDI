@@ -274,9 +274,7 @@ Define the edge vectors: $v_{21} = (x_2,y_2) - (x_1,y_1)$, $v_{31} = (x_3,y_3) -
 and their norms $\lVert v_{21} \rVert$, $\lVert v_{31} \rVert$, $\lVert v_{32} \rVert$. From these, one computes cosines of angles (e.g. $\cos A$, $\cos B$) and compares them to $0.5$, the value corresponding to a $60^\circ$ angle.
 
 The functional is then
-$ A = \lvert \cos A - 0.5 \rvert
-  + \lvert \cos B - 0.5 \rvert
-  + \left\lvert \frac{1}{3} \bigl( \lVert v_{21} \rVert + \lVert v_{31} \rVert + \lVert v_{32} \rVert \bigr) - L \right\rvert. $
+$A = \lvert \cos A - 0.5 \rvert + \lvert \cos B - 0.5 \rvert + \left\lvert \frac{1}{3} \bigl( \lVert v_{21} \rVert + \lVert v_{31} \rVert + \lVert v_{32} \rVert \bigr) - L \right\rvert.$
 
 This penalizes deviations from an approximately equilateral configuration with perimeter-controlled side length $L$.
 
