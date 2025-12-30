@@ -41,16 +41,13 @@ The gradient-based implementation evolves an ensemble according to a discretized
 
 - `rho_gen(x, mu, Sigma)`  
   Evaluates a **multivariate Gaussian prior density**:
-    $
-    \rho_0(x) = \mathcal{N}(x;\mu,\Sigma)
-    $
+    $$\rho_0(x) = \mathcal{N}(x;\mu,\Sigma)$$
   used to regularize the ensemble and encode prior information.
 
 - `phi(U, T, R, k)`  
   Defines the **potential function**:
-    $
-    \Phi(x) = \frac{1}{2R}\tilde{G}(x)^2 - \ln \rho_0(x)
-    $
+    $$\Phi(x) = \frac{1}{2R}\tilde{G}(x)^2 - \ln \rho_0(x)
+    $$
   where:
   - $R$ is a scaling parameter.
   - $\tilde{G}(x)$ is the smoothed LSF.
@@ -71,13 +68,9 @@ The gradient-based implementation evolves an ensemble according to a discretized
     - Empirical covariance $C$.
     - Covariance-based square-root term $C_\text{half}$ (using anomalies).
   - Evaluates `grad_PHI` and constructs the **drift**:
-    $
-    \text{drift} = -C \nabla \Phi(U) + \frac{D+1}{N}(U - m)
-    $
+    $$\text{drift} = -C \nabla \Phi(U) + \frac{D+1}{N}(U - m)$$
   - Adds noise:
-    $
-    \text{noise} \propto C^{1/2} \xi
-    $
+    $$\text{noise} \propto C^{1/2} \xi$$
     where $\xi$ is standard Gaussian.
   - Uses an Euler–Maruyama update for each particle.
 
