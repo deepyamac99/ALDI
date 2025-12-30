@@ -270,10 +270,7 @@ The function `yield_X2_X3` constructs initial positions for vortices 2 and 3 fro
 
 At any time, for positions $(x_1,x_2,x_3,y_1,y_2,y_3)$, the functional $A$ measures how far the configuration is from this target shape.
 
-Define the edge vectors:
-$ v_{21} = (x_2,y_2) - (x_1,y_1), \;
-v_{31} = (x_3,y_3) - (x_1,y_1), \;
-v_{32} = (x_3,y_3) - (x_2,y_2), $
+Define the edge vectors: $v_{21} = (x_2,y_2) - (x_1,y_1)$, $v_{31} = (x_3,y_3) - (x_1,y_1)$, $v_{32} = (x_3,y_3) - (x_2,y_2)$
 and their norms $\lVert v_{21} \rVert$, $\lVert v_{31} \rVert$, $\lVert v_{32} \rVert$. From these, one computes cosines of angles (e.g. $\cos A$, $\cos B$) and compares them to $0.5$, the value corresponding to a $60^\circ$ angle.
 
 The functional is then
