@@ -231,12 +231,12 @@ This section summarizes how the limit state functions $$G$$ are defined in each 
 ### Convex Algebraic Problem
 
 In the convex problem, $u = (u_1, u_2)$ is a 2D parameter and $G$ is a quadratic-plus-linear function:
-$G(u) = 0.1\,(u_1 - u_2)^2 - \frac{1}{\sqrt{2}}\,(u_1 + u_2) + 2.5.$
+$G(u) = 0.1(u_1 - u_2)^2 - \frac{1}{\sqrt{2}}(u_1 + u_2) + 2.5.$
 
 Failure is defined by $G(u) \le 0$, and the corresponding clipped “failure response” used in the code is
-$\text{is\_failure}(u) = \max\bigl(0,\, G(u)\bigr).$
+$\text{is_failure}(u) = \max\bigl(0, G(u)\bigr).$
 
-This creates a convex rare-event region in the $$(u_1,u_2)$$ plane.
+This creates a convex rare-event region in the $(u_1,u_2)$ plane.
 
 ### Hyperbolic Saddle Problem
 
