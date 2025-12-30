@@ -28,9 +28,9 @@ The gradient-based implementation evolves an ensemble according to a discretized
   (Here the LSF is explained for the hyperbolic saddle problem for ease of understanding)
   - The state $(x(t), y(t))$ is obtained by exponential decay/growth from the initial condition $u = (u_1, u_2)$ over a time grid `t_grid`.
   - The function computes the time-averaged squared radius $x(t)^2 + y(t)^2$ and returns:
-    $$
+    $
     G(u) = \text{mean}_t(x(t)^2 + y(t)^2) - 0.5
-    $$
+    $
   - Failure corresponds to $G(u) \leq 0$.
 
 - `G_tilde(u, T, k)`  
@@ -43,16 +43,16 @@ The gradient-based implementation evolves an ensemble according to a discretized
 
 - `rho_gen(x, mu, Sigma)`  
   Evaluates a **multivariate Gaussian prior density**:
-    $$
+    $
     \rho_0(x) = \mathcal{N}(x;\mu,\Sigma)
-    $$
+    $
   used to regularize the ensemble and encode prior information.
 
 - `phi(U, T, R, k)`  
   Defines the **potential function**:
-    $$
+    $
     \Phi(x) = \frac{1}{2R}\tilde{G}(x)^2 - \ln \rho_0(x)
-    $$
+    $
   where:
   - $R$ is a scaling parameter.
   - $\tilde{G}(x)$ is the smoothed LSF.
@@ -73,13 +73,13 @@ The gradient-based implementation evolves an ensemble according to a discretized
     - Empirical covariance $C$.
     - Covariance-based square-root term $C_\text{half}$ (using anomalies).
   - Evaluates `grad_PHI` and constructs the **drift**:
-    $$
+    $
     \text{drift} = -C \nabla \Phi(U) + \frac{D+1}{N}(U - m)
-    $$
+    $
   - Adds noise:
-    $$
+    $
     \text{noise} \propto C^{1/2} \xi
-    $$
+    $
     where $\xi$ is standard Gaussian.
   - Uses an Euler–Maruyama update for each particle.
 
