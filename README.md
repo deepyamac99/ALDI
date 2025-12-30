@@ -38,7 +38,7 @@ The gradient-based implementation evolves an ensemble according to a discretized
   - Uses a smooth transition function $\phi_\delta$ so that:
     - $\tilde{G}_\delta(u) \approx 0$ for $G(u) \leq 0$.
     - $\tilde{G}_\delta(u) \approx G(u)f(u,x,G,\delta)$ for $G(x) \in [0, \delta]$
-    - - $\tilde{G}_\delta(u) \approx G(u)$ for $G(x) > \delta$
+    - $\tilde{G}_\delta(u) \approx G(u)$ for $G(x) > \delta$
   - Here the function $f$ acts as a ramp-function. This improves differentiability and numerical stability of the potential. 
 
 - `rho_gen(x, mu, Sigma)`  
