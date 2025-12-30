@@ -243,12 +243,7 @@ This creates a convex rare-event region in the $(u_1,u_2)$ plane.
 
 In the hyperbolic saddle problem, $u = (u_1, u_2)$ represents initial conditions for a 2D dynamical system with one stable and one unstable direction, integrated over a time grid `t_grid`.
 
-The trajectories are
-$
-x(t) = u_1 \, e^{-\alpha t}, \qquad
-y(t) = u_2 \, e^{\beta t},
-$
-with $\alpha = 1$ and $$\beta = 1$ in the implementation. For each particle,
+The trajectories are \(x(t) = u_1 e^{-\alpha t}\) and \(y(t) = u_2 e^{\beta t}\) with $\alpha = 1$ and $$\beta = 1$ in the implementation. For each particle,
 $r(t)^2 = x(t)^2 + y(t)^2.$
 
 The limit state function is defined as the time-averaged squared radius minus a threshold:
