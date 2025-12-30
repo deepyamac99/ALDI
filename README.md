@@ -260,47 +260,39 @@ In the vortex interaction problem, $u \in \mathbb{R}^6$ is a 6D control/noise ve
 
 #### Underlying dynamics
 
-Three vortices with circulations $\Gamma_1 = 1$, $\Gamma_2 = 1$, $\Gamma_3 = -2$ interact via a Biot–Savart–type vector field (implemented by the functions `Fx1`, `Fx2`, `Fx3`, `Fy1`, `Fy2`, `Fy3`). The routine `Euler_alt` integrates the vortex trajectories forward in time using an Euler–Maruyama scheme, with additive noise driven by $$u$$.
+Three vortices with circulations $\Gamma_1 = 1$, $\Gamma_2 = 1$, $\Gamma_3 = -2$ interact via a Biot–Savart–type vector field (implemented by the functions `Fx1`, `Fx2`, `Fx3`, `Fy1`, `Fy2`, `Fy3`). The routine `Euler_alt` integrates the vortex trajectories forward in time using an Euler–Maruyama scheme, with additive noise driven by $u$.
 
 #### Initialization near a special configuration
 
-The function `yield_X2_X3` constructs initial positions for vortices 2 and 3 from vortex 1 such that the three vortices start near a special geometric configuration (approximately equilateral) with side length $$L$$ determined by the circulations and Hamiltonian parameters.
+The function `yield_X2_X3` constructs initial positions for vortices 2 and 3 from vortex 1 such that the three vortices start near a special geometric configuration (approximately equilateral) with side length $L$ determined by the circulations and Hamiltonian parameters.
 
-#### Geometric functional $$A$$
+#### Geometric functional $A$
 
 At any time, for positions $(x_1,x_2,x_3,y_1,y_2,y_3)$, the functional $A$ measures how far the configuration is from this target shape.
 
 Define the edge vectors:
-$
-v_{21} = (x_2,y_2) - (x_1,y_1), \qquad
-v_{31} = (x_3,y_3) - (x_1,y_1), \qquad
-v_{32} = (x_3,y_3) - (x_2,y_2),
-$
+$ v_{21} = (x_2,y_2) - (x_1,y_1), \;
+v_{31} = (x_3,y_3) - (x_1,y_1), \;
+v_{32} = (x_3,y_3) - (x_2,y_2), $
 and their norms $\lVert v_{21} \rVert$, $\lVert v_{31} \rVert$, $\lVert v_{32} \rVert$. From these, one computes cosines of angles (e.g. $\cos A$, $\cos B$) and compares them to $0.5$, the value corresponding to a $60^\circ$ angle.
 
 The functional is then
-$
-A = \bigl|\cos A - 0.5\bigr|
-  + \bigl|\cos B - 0.5\bigr|
-  + \left|\frac{1}{3}\bigl(\lVert v_{21}\rVert + \lVert v_{31}\rVert + \lVert v_{32}\rVert\bigr) - L\right|.
-$
+$ A = \lvert \cos A - 0.5 \rvert
+  + \lvert \cos B - 0.5 \rvert
+  + \left\lvert \frac{1}{3} \bigl( \lVert v_{21} \rVert + \lVert v_{31} \rVert + \lVert v_{32} \rVert \bigr) - L \right\rvert. $
 
 This penalizes deviations from an approximately equilateral configuration with perimeter-controlled side length $L$.
 
 #### Time-averaged geometric deviation
 
-The function `A_mean` evaluates $$A$$ along each trajectory and averages over time:
-$
-\bar{A}(u) = \text{mean over time of } A(\text{vortex positions}(t; u)).
-$
+The function `A_mean` evaluates $A$ along each trajectory and averages over time:
+$\bar{A}(u) = \text{mean over time of } A(\text{vortex positions}(t; u)).$
 
 #### Limit state function for vortices
 
 The atmospheric/vortex limit state function is defined as
-$
-G(u) = \bar{A}(u) - \text{threshold},
-$
-with a chosen threshold (e.g. $0.25$) and specific time-step $\tau$ and final time $$T_f$$ inside `G_atm_alt` / `G_of_u`.
+$G(u) = \bar{A}(u) - \text{threshold},$
+with a chosen threshold (e.g. $0.25$) and specific time-step $\tau$ and final time $T_f$ inside `G_atm_alt` / `G_of_u`.
 
 Failure corresponds to $G(u) \le 0$, i.e., those noise/control realizations $u$ that keep the three-vortex system close (on average over time) to the target configuration.
 
