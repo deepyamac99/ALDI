@@ -226,55 +226,45 @@ Clone the repository and install dependencies using a Python environment (e.g., 
 
 ## Limit State Functions in the Three Examples
 
-This section summarizes how the limit state functions $$G$$ are defined in each of the three test problems. The failure set is always characterized by $$G(u) \le 0$$, and the ALDI algorithms are used to drive ensembles toward these rare-event regions.
+This section summarizes how the limit state functions $$G$$ are defined in each of the three test problems. The failure set is always characterized by $G(u) \le 0$, and the ALDI algorithms are used to drive ensembles toward these rare-event regions.
 
 ### Convex Algebraic Problem
 
-In the convex problem, $$u = (u_1, u_2)$$ is a 2D parameter and $$G$$ is a quadratic-plus-linear function:
-$$
-G(u) = 0.1\,(u_1 - u_2)^2 - \frac{1}{\sqrt{2}}\,(u_1 + u_2) + 2.5.
-$$
+In the convex problem, $u = (u_1, u_2)$ is a 2D parameter and $G$ is a quadratic-plus-linear function:
+$G(u) = 0.1\,(u_1 - u_2)^2 - \frac{1}{\sqrt{2}}\,(u_1 + u_2) + 2.5.$
 
-Failure is defined by $$G(u) \le 0$$, and the corresponding clipped “failure response” used in the code is
-$$
-\text{is\_failure}(u) = \max\bigl(0,\, G(u)\bigr).
-$$
+Failure is defined by $G(u) \le 0$, and the corresponding clipped “failure response” used in the code is
+$\text{is\_failure}(u) = \max\bigl(0,\, G(u)\bigr).$
 
 This creates a convex rare-event region in the $$(u_1,u_2)$$ plane.
 
 ### Hyperbolic Saddle Problem
 
-In the hyperbolic saddle problem, $$u = (u_1, u_2)$$ represents initial conditions for a 2D dynamical system with one stable and one unstable direction, integrated over a time grid `t_grid`.
+In the hyperbolic saddle problem, $u = (u_1, u_2)$ represents initial conditions for a 2D dynamical system with one stable and one unstable direction, integrated over a time grid `t_grid`.
 
 The trajectories are
-$$
+$
 x(t) = u_1 \, e^{-\alpha t}, \qquad
 y(t) = u_2 \, e^{\beta t},
-$$
-with $$\alpha = 1$$ and $$\beta = 1$$ in the implementation. For each particle,
-$$
-r(t)^2 = x(t)^2 + y(t)^2.
-$$
+$
+with $\alpha = 1$ and $$\beta = 1$ in the implementation. For each particle,
+$r(t)^2 = x(t)^2 + y(t)^2.$
 
 The limit state function is defined as the time-averaged squared radius minus a threshold:
-$$
-G(u) = \frac{1}{|t_{\text{grid}}|} \sum_{t \in t_{\text{grid}}} r(t)^2 - 0.5.
-$$
+$G(u) = \frac{1}{|t_{\text{grid}}|} \sum_{t \in t_{\text{grid}}} r(t)^2 - 0.5.$
 
-Failure corresponds to $$G(u) \le 0$$, i.e., trajectories that on average remain within a radius satisfying roughly $$r^2 \le 0.5$$. The associated clipped response is
-$$
-\text{is\_failure}(u, t_{\text{grid}}) = \max\bigl(0,\, G(u)\bigr).
-$$
+Failure corresponds to $G(u) \le 0$, i.e., trajectories that on average remain within a radius satisfying roughly $r^2 \le 0.5$. The associated clipped response is
+$\text{is\_failure}(u, t_{\text{grid}}) = \max\bigl(0,\, G(u)\bigr).$
 
 This produces a nontrivial rare-event region shaped by the saddle dynamics in phase space.
 
 ### 6D Point Vortex Interaction Problem
 
-In the vortex interaction problem, $$u \in \mathbb{R}^6$$ is a 6D control/noise vector that perturbs the motion of three interacting point vortices in 2D. The limit state function is built from a geometric constraint on the vortex configuration.
+In the vortex interaction problem, $u \in \mathbb{R}^6$ is a 6D control/noise vector that perturbs the motion of three interacting point vortices in 2D. The limit state function is built from a geometric constraint on the vortex configuration.
 
 #### Underlying dynamics
 
-Three vortices with circulations $$\Gamma_1 = 1$$, $$\Gamma_2 = 1$$, $$\Gamma_3 = -2$$ interact via a Biot–Savart–type vector field (implemented by the functions `Fx1`, `Fx2`, `Fx3`, `Fy1`, `Fy2`, `Fy3`). The routine `Euler_alt` integrates the vortex trajectories forward in time using an Euler–Maruyama scheme, with additive noise driven by $$u$$.
+Three vortices with circulations $\Gamma_1 = 1$, $\Gamma_2 = 1$, $\Gamma_3 = -2$ interact via a Biot–Savart–type vector field (implemented by the functions `Fx1`, `Fx2`, `Fx3`, `Fy1`, `Fy2`, `Fy3`). The routine `Euler_alt` integrates the vortex trajectories forward in time using an Euler–Maruyama scheme, with additive noise driven by $$u$$.
 
 #### Initialization near a special configuration
 
@@ -282,41 +272,41 @@ The function `yield_X2_X3` constructs initial positions for vortices 2 and 3 fro
 
 #### Geometric functional $$A$$
 
-At any time, for positions $$(x_1,x_2,x_3,y_1,y_2,y_3)$$, the functional $$A$$ measures how far the configuration is from this target shape.
+At any time, for positions $(x_1,x_2,x_3,y_1,y_2,y_3)$, the functional $A$ measures how far the configuration is from this target shape.
 
 Define the edge vectors:
-$$
+$
 v_{21} = (x_2,y_2) - (x_1,y_1), \qquad
 v_{31} = (x_3,y_3) - (x_1,y_1), \qquad
 v_{32} = (x_3,y_3) - (x_2,y_2),
-$$
-and their norms $$\lVert v_{21} \rVert$$, $$\lVert v_{31} \rVert$$, $$\lVert v_{32} \rVert$$. From these, one computes cosines of angles (e.g. $$\cos A$$, $$\cos B$$) and compares them to $$0.5$$, the value corresponding to a $$60^\circ$$ angle.
+$
+and their norms $\lVert v_{21} \rVert$, $\lVert v_{31} \rVert$, $\lVert v_{32} \rVert$. From these, one computes cosines of angles (e.g. $\cos A$, $\cos B$) and compares them to $0.5$, the value corresponding to a $60^\circ$ angle.
 
 The functional is then
-$$
+$
 A = \bigl|\cos A - 0.5\bigr|
   + \bigl|\cos B - 0.5\bigr|
   + \left|\frac{1}{3}\bigl(\lVert v_{21}\rVert + \lVert v_{31}\rVert + \lVert v_{32}\rVert\bigr) - L\right|.
-$$
+$
 
-This penalizes deviations from an approximately equilateral configuration with perimeter-controlled side length $$L$$.
+This penalizes deviations from an approximately equilateral configuration with perimeter-controlled side length $L$.
 
 #### Time-averaged geometric deviation
 
 The function `A_mean` evaluates $$A$$ along each trajectory and averages over time:
-$$
+$
 \bar{A}(u) = \text{mean over time of } A(\text{vortex positions}(t; u)).
-$$
+$
 
 #### Limit state function for vortices
 
 The atmospheric/vortex limit state function is defined as
-$$
+$
 G(u) = \bar{A}(u) - \text{threshold},
-$$
-with a chosen threshold (e.g. $$0.25$$) and specific time-step $$\tau$$ and final time $$T_f$$ inside `G_atm_alt` / `G_of_u`.
+$
+with a chosen threshold (e.g. $0.25$) and specific time-step $\tau$ and final time $$T_f$$ inside `G_atm_alt` / `G_of_u`.
 
-Failure corresponds to $$G(u) \le 0$$, i.e., those noise/control realizations $$u$$ that keep the three-vortex system close (on average over time) to the target configuration.
+Failure corresponds to $G(u) \le 0$, i.e., those noise/control realizations $u$ that keep the three-vortex system close (on average over time) to the target configuration.
 
 ---
 
