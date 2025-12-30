@@ -255,7 +255,7 @@ The limit state function is defined as the time-averaged squared radius minus a 
 $G(u) = \frac{1}{|t_{\text{grid}}|} \sum_{t \in t_{\text{grid}}} r(t)^2 - 0.5.$
 
 Failure corresponds to $G(u) \le 0$, i.e., trajectories that on average remain within a radius satisfying roughly $r^2 \le 0.5$. The associated clipped response is
-$\text{is\_failure}(u, t_{\text{grid}}) = \max\bigl(0,\, G(u)\bigr).$
+`is_failure(u, t_grid) = (0, G(u))`.
 
 This produces a nontrivial rare-event region shaped by the saddle dynamics in phase space.
 
