@@ -234,7 +234,8 @@ In the convex problem, $u = (u_1, u_2)$ is a 2D parameter and $G$ is a quadratic
 $G(u) = 0.1(u_1 - u_2)^2 - \frac{1}{\sqrt{2}}(u_1 + u_2) + 2.5.$
 
 Failure is defined by $G(u) \le 0$, and the corresponding clipped “failure response” used in the code is
-$\text{is_failure}(u) = \max\bigl(0, G(u)\bigr).$
+`is_failure(u) = max(0, G(u))`
+
 
 This creates a convex rare-event region in the $(u_1,u_2)$ plane.
 
