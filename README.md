@@ -5,13 +5,13 @@ This repository implements **gradient-based** and **gradient-free** variants of 
   - Hyperbolic Saddle problem
   - 6 dimensional Point vortex interaction problem
 
-In all three examples the ALDI distribution evolves in the phase-space to capture the rare-event set.
+In all three examples the ALDI distribution evolves in the phase-space to capture the rare-event set. The rare-events are defined as the zero-level set of the limit-state-function, in a bayesian-inverse-problem context. A smooth and non-smooth version of this LSF is presented to overcome differentiability contrainst.
 
 ---
 
 ## Gradient-Based ALDI
 
-The gradient-based implementation evolves an ensemble according to a discretized SDE with drift and diffusion terms constructed from a potential function.
+The gradient-based implementation evolves an ensemble according to a discretized SDE with drift and diffusion terms constructed from a potential function under the influence of standard brownian noise.
 
 ### Core Idea
 
@@ -25,12 +25,13 @@ The gradient-based implementation evolves an ensemble according to a discretized
 
 - `G_of_u(u, t_grid)`  
   Defines the **limit state function (LSF)** based on a 2D dynamical system:
+  (Here the LSF is explained for the hyperbolic saddle problem for ease of understanding)
   - The state $(x(t), y(t))$ is obtained by exponential decay/growth from the initial condition $u = (u_1, u_2)$ over a time grid `t_grid`.
   - The function computes the time-averaged squared radius $x(t)^2 + y(t)^2$ and returns:
     $$
     G(u) = \text{mean}_t(x(t)^2 + y(t)^2) - 0.5
     $$
-  - Failure corresponds to $G(u) \le 0$.
+  - Failure corresponds to $G(u) \leq 0$.
 
 - `G_tilde(u, T, k)`  
   Implements a **smoothed version** of the modified LSF:
