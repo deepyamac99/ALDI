@@ -5,7 +5,7 @@ This repository implements **gradient-based** and **gradient-free** variants of 
   - Hyperbolic Saddle problem
   - 6 dimensional Point vortex interaction problem
 
-In all three examples the ALDI distribution evolves in the phase-space to capture the rare-event set. The rare-events are defined as the zero-level set of the limit-state-function, in a bayesian-inverse-problem context. A smooth and non-smooth version of this LSF is presented to overcome differentiability contrainst.
+In all three examples the ALDI distribution evolves in the phase-space to capture the rare-event set. The rare-events are defined as the zero-level set of the limit-state-function, in a bayesian-inverse-problem context. A smooth and non-smooth version of this LSF is presented to overcome differentiability contrainst. The repository builds on the paper Schillings et al 2025 (https://arxiv.org/abs/2601.00107).  
 
 ---
 
@@ -23,7 +23,7 @@ $C(X) := \frac{1}{J} \sum_{j=1}^{J} \left(x^{(j)} - m(X)\right)\left(x^{(j)} - m
 
 $C^{1/2}(X) := \frac{1}{\sqrt{J}} \left( X - m(X)\mathbf{1}_J \right)$
 
-Below different functions of the code is explained as building blocks.
+Below different functions of the code is explained as building blocks. For more details, look into section 2.2 of Schillings et al, 2025.
 ### Main Components
 
 - `G_of_u(u, t_grid)`  
@@ -123,7 +123,7 @@ $D(X) := \frac{1}{J} \sum_{j=1}^{J} \left( x^{(j)} - m(X) \right) \left( G(x^{(j
 
 $m(G(X)) := \frac{1}{J} \sum_{j=1}^{J} G(x^{(j)})$
 
-where $D$ is the cross-correlation matrix.
+where $D$ is the cross-correlation matrix.  For more details regarding formulation and use of gradient free version, look into section 2.4 of the Schillings et al.2025. For the theoretical origin and  analysis of the gradient-free version refer to Reich et al 2020.
 
 
 ### Core Idea
@@ -311,5 +311,7 @@ Failure corresponds to $G(u) \le 0$, i.e., those noise/control realizations $u$ 
 
 ## References
 
--  Chakraborty, D., Harris, R., Klein, R., Olicón-Méndez, G., Reich, S., & Schillings, C. (2025). *Affine Invariant Langevin Dynamics for rare-event sampling*. arXiv:2601.00107. [https://arxiv.org/abs/2601.00107](https://arxiv.org/abs/2601.00107)
+1.  Chakraborty, D., Harris, R., Klein, R., Olicón-Méndez, G., Reich, S., & Schillings, C. (2025). *Affine Invariant Langevin Dynamics for rare-event sampling*. arXiv:2601.00107. [https://arxiv.org/abs/2601.00107]
+2.  Garbuno-Inigo, A., Nüsken, N., & Reich, S. (2020). *Affine Invariant Interacting Langevin Dynamics for Bayesian Inference*. SIAM Journal on Applied Dynamical Systems, 19(3), 1633–1658. https://doi.org/10.1137/19M1304891
+
 
