@@ -23,6 +23,7 @@ $C(X) := \frac{1}{J} \sum_{j=1}^{J} \left(x^{(j)} - m(X)\right)\left(x^{(j)} - m
 
 $C^{1/2}(X) := \frac{1}{\sqrt{J}} \left( X - m(X)\mathbf{1}_J \right)$
 
+Below different functions of the code is explained as building blocks.
 ### Main Components
 
 - `G_of_u(u, t_grid)`  
@@ -69,7 +70,7 @@ Where, $\psi_\delta$ can be thought of as a mollifier.The important properties r
     - Empirical covariance $C$.
     - Covariance-based square-root term $C_\text{half}$ (using anomalies).
   - Evaluates `grad_PHI` and constructs the **drift**:
-    $$\text{drift} = -C \nabla \Phi(U) + \frac{D+1}{N}(U - m)$$
+    $-C \nabla \Phi(U) + \frac{D+1}{N}(U - m)$$
   - Adds noise:
     $$\text{noise} \propto C^{1/2} \xi$$
     where $\xi$ is standard Gaussian.
@@ -128,7 +129,7 @@ where $D$ is the cross-correlation matrix.
 ### Core Idea
 
 - The gradient-free method:
-  - Treats the **forward model** as the smoothed failure response `is_failure(u, t_grid)`.
+  - Capable using the original $G_tilde$ with the max function instead of the modified function that is piecewise-smooth.
   - Uses the **empirical cross-covariance** between particle states and their outputs to build a drift toward observations.
   - Incorporates a **Gaussian prior** to stabilize dynamics and control spread.
 - This is particularly useful when:
@@ -306,3 +307,9 @@ Failure corresponds to $G(u) \le 0$, i.e., those noise/control realizations $u$ 
 - Both variants rely on **ensemble statistics** and are suitable for reliability analysis and rare-event estimation in systems defined via black-box forward models.
 - Random seeds are set (`np.random.seed(42)`) for reproducible experiments.
 - You can extend the plotting utilities or post-process the saved `.npy` files in separate notebooks for additional diagnostics (e.g., convergence of estimated failure probabilities or comparison between gradient-based and gradient-free behavior).
+
+
+## References
+
+-  Chakraborty, D., Harris, R., Klein, R., Olicón-Méndez, G., Reich, S., & Schillings, C. (2025). *Affine Invariant Langevin Dynamics for rare-event sampling*. arXiv:2601.00107. [https://arxiv.org/abs/2601.00107](https://arxiv.org/abs/2601.00107)
+
