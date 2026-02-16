@@ -11,38 +11,39 @@ In all three examples the ALDI distribution evolves in the phase-space to captur
 
 ## Gradient-Based ALDI
 
-The gradient-based implementation evolves an ensemble according to a discretized SDE with drift and diffusion terms constructed from a potential function under the influence of standard brownian noise.
+ALDI is formulated as an interacting particle system, which in presence of a smooth potential function can be expressed as a system of Ito-type stochastic differential equations. The gradient-based implementation evolves an ensemble according to a discretized SDE with drift and diffusion terms constructed from a potential function under the influence of standard brownian noise, given as,
 
-### Core Idea
+$dx_t^{(j)} =\left[ - C(X_t) \nabla_{x^{(j)}} \Phi \left(x_t^{(j)}\right) + \frac{d+1}{J}\left(x_t^{(j)} - m(X_t)\right) \right] dt + \sqrt{2}\, C^{1/2}(X_t)\, dW_t^{(j)}$
 
-- The SDE uses:
-  - **Empirical mean** $m(U)$ and **covariance** $C(U)$ of the ensemble.
-  - A **potential** $\Phi(u)$ combining a piecewise smoothed limit state function $\tilde{G}$ and a Gaussian prior.
-  - A **gradient term** $-C(U)\nabla \Phi(u^{(j)})$ driving the ensemble toward regions of interest (e.g., failure domain).
-- Noise is added using a covariance-based construction, ensuring exploration and approximate affine invariance.
+where,
+
+$m(X) := \frac{1}{J} \sum_{j=1}^{J} x^{(j)}$
+
+$C(X) := \frac{1}{J} \sum_{j=1}^{J} \left(x^{(j)} - m(X)\right)\left(x^{(j)} - m(X)\right)^{\top}$
+
+$C^{1/2}(X) := \frac{1}{\sqrt{J}} \left( X - m(X)\mathbf{1}_J \right)$
 
 ### Main Components
 
 - `G_of_u(u, t_grid)`  
-  Defines the **limit state function (LSF)** based on a 2D dynamical system:
-  (Here the LSF is explained for the hyperbolic saddle problem for ease of understanding)
-  - The state $(x(t), y(t))$ is obtained by exponential decay/growth from the initial condition $u = (u_1, u_2)$ over a time grid `t_grid`.
-  - The function computes the time-averaged squared radius $x(t)^2 + y(t)^2$ and returns:
-    $$G(u) = \text{mean}_t(x(t)^2 + y(t)^2) - 0.5$$
-  - Failure corresponds to $G(u) \leq 0$.
+  The limit-state function depicted as $G(\cdot)$, is a map from $G:\mathbb{R}^D \rightarrow \mathbb{R}$. The outcome of which defines a rare-event in bayesian sense. Definition of rare-event is given as, $G(\cdot) \leq 0$.
 
 - `G_tilde(u, T, k)`  
-  Implements a **smoothed version** of the modified LSF:
-  - Uses a smooth transition function $\phi_\delta$ so that:
-    - $\tilde{G}_\delta(u) \approx 0$ for $G(u) \leq 0$.
-    - $\tilde{G}_\delta(u) \approx G(u)f(u,x,G,\delta)$ for $G(x) \in [0, \delta]$
-    - $\tilde{G}_\delta(u) \approx G(u)$ for $G(x) > \delta$
-  - Here the function $f$ acts as a ramp-function. This improves differentiability and numerical stability of the potential. 
+  To deal with the non-smooth potential, a piecewise approximation of the original limit state function is made in an interval $[0,\delta]$.
+  
+$G_\delta(x) = 0, \quad \text{if } G(x) < 0$
+
+$G_\delta(x) = \dfrac{G(x)\,\psi_\delta(G(x))}{\psi_\delta(G(x)) + \psi_\delta(\delta - G(x))}, \quad \text{if } G(x) \in [0, \delta]$
+
+$G_\delta(x) = G(x), \quad \text{if } G(x) > \delta$
+
+Where, $\psi_\delta$ can be thought of as a mollifier.The important properties regarding the above approximation is that it,  preserves the zero-level-sets for all $\delta \geq 0$; and as $\tilde{G}_\delta \rightarrow G$ as $\delta \rightarrow 0$.
+
 
 - `rho_gen(x, mu, Sigma)`  
   Evaluates a **multivariate Gaussian prior density**:
     $$\rho_0(x) = \mathcal{N}(x;\mu,\Sigma)$$
-  used to regularize the ensemble and encode prior information.
+  used to regularize the ensemble and encode prior information. It is assumed that $\rho_0$ is positive and conitnuous in the state-space.
 
 - `phi(U, T, R, k)`  
   Defines the **potential function**:
@@ -113,7 +114,16 @@ In the `__main__` block:
 
 ## Gradient-Free ALDI Variant
 
-In addition to the gradient-based implementation, the repository includes a **gradient-free ALDI** variant that does not require explicit gradients of $\Phi$ or the LSF. Instead, it uses ensemble covariances between parameters and forward model outputs to construct data-driven drifts, similar in spirit to ensemble Kalman methods.
+In addition to the gradient-based implementation, the repository includes a **gradient-free ALDI** variant that does not require explicit gradients of $\Phi$ or the LSF. The approximated version is given as,
+$dx_t^{(j)} = \Big[- \frac{1}{R} D(X_t) \,\tilde{G}\big(x_t^{(j)}\big)+ \frac{1}{P_0} C(X_t) \big(x_t^{(j)} - m_0\big)+ \frac{d+1}{J} \big(x_t^{(j)} - m(X_t)\big)
+\Big] dt + \sqrt{2}\, C^{1/2}(X_t) \, dW_t^{(j)}$
+
+$D(X) := \frac{1}{J} \sum_{j=1}^{J} \left( x^{(j)} - m(X) \right) \left( G(x^{(j)}) - m(G(X)) \right)^{\top}$
+
+$m(G(X)) := \frac{1}{J} \sum_{j=1}^{J} G(x^{(j)})$
+
+where $D$ is the cross-correlation matrix.
+
 
 ### Core Idea
 
@@ -127,10 +137,7 @@ In addition to the gradient-based implementation, the repository includes a **gr
 
 ### Main Components
 
-- `G_of_u(u, t_grid)`  
-  Same LSF definition as in the gradient-based implementation:
-  - Computes trajectories over `t_grid`, evaluates $x(t)^2 + y(t)^2$, averages over time, and subtracts `0.5`.
-  - Failure: $G(u) \le 0$.
+- `G_of_u(u, t_grid)`  (same as before)
 
 - `is_failure(u, t_grid)`  
   - Returns $\max(0, G(u))$, a non-negative failure response used as the observation/forward model in the gradient-free update.
